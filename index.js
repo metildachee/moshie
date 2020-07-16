@@ -16,7 +16,7 @@ io.on("connection", socket => {
     io.to(socket.id).emit("addNewUser", currentUsers);
     currentUsers.push({ name: "", id: socket.id });
 
-    socket.on("newUser", name => {
+    socket.on("newUser", (name, next) => {
         currentUsers.forEach( user => {
             if (user.id == socket.id) user["name"] = name;
         })
@@ -36,6 +36,4 @@ io.on("connection", socket => {
     });
 })
 
-http.listen(PORT = process.env.PORT || 3000, () => {
-    console.log(`Go to localhost://${PORT}`);
-})
+http.listen(PORT = process.env.PORT || 3000, () => console.log(`Go to localhost:${PORT}`));

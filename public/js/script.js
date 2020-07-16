@@ -1,5 +1,5 @@
 const socket = io();
-let name; 
+let name; let timer;
 
 document.getElementById("send").addEventListener('click', sendMessage);
 document.getElementById("nameBtn").addEventListener('click', addName);
@@ -12,7 +12,7 @@ socket.on('incomingMessage', msg => displayMessage(msg));
 socket.on('leftChat', username => updateUsers(username));
 
 function sendMessage() {
-    console.log("hellow");
+    window.clearTimeout(timer);
     let inputMessage = `${name}: ${document.querySelector('.inputMessage').value}`;
     displayMessage(`You: ${document.querySelector('.inputMessage').value}`);
     document.querySelector('.inputMessage').value = "";
@@ -29,7 +29,9 @@ function addName() {
 }
 
 function typingHandler() {
+    window.clearTimeout(timer);
     socket.emit("typingMessage", `${name}: is typing....`);
+    timer = setTimeout(() => { socket.emit("typingStopped", "") }, 2000);
 }
 
 function displayMessage(msg) {
@@ -51,7 +53,7 @@ function addUser(users) {
 function updateUsers(username) {
     document.getElementById("peepsContainer").childNodes.forEach( p => {
         if (p.textContent == username){
-            displayMessage(`${p.textContent} left the chat..`);
+            displayMessage(`Admin: ${p.textContent} left the chat..`);
             p.remove();
         } 
     })
