@@ -18,7 +18,7 @@ io.on("connection", socket => {
 
     socket.on("newUser", (name, next) => {
         currentUsers.forEach( user => { if (user.id == socket.id) user["name"] = name; });
-        socket.broadcast.emit("incomingMessage", `Admin: ${name} has joined the secret chat! Remember to say hi!`);
+        socket.broadcast.emit("incomingMessage", `Admin: ${name} has joined moshie! Remember to say hi!`);
         socket.broadcast.emit("addNewUser", [{ name: `${name}` }]);
     })
 
