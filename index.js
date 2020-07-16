@@ -17,9 +17,7 @@ io.on("connection", socket => {
     currentUsers.push({ name: "", id: socket.id });
 
     socket.on("newUser", (name, next) => {
-        currentUsers.forEach( user => {
-            if (user.id == socket.id) user["name"] = name;
-        })
+        currentUsers.forEach( user => { if (user.id == socket.id) user["name"] = name; });
         socket.broadcast.emit("incomingMessage", `Admin: ${name} has joined the secret chat! Remember to say hi!`);
         socket.broadcast.emit("addNewUser", [{ name: `${name}` }]);
     })
@@ -30,7 +28,7 @@ io.on("connection", socket => {
 
     socket.on("disconnect", () => {
         let user = currentUsers.find( user => user.id == socket.id );
-        let index = currentUsers.find( user => user.id == socket.id );
+        let index = currentUsers.findIndex( user => user.id == socket.id );
         io.emit("leftChat", user.name);
         currentUsers.splice(index, 1);
     });

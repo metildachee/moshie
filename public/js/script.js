@@ -7,7 +7,7 @@ document.querySelector('.inputMessage').addEventListener('keyup', typingHandler)
 
 socket.on('onConnection', msg => displayMessage(msg));
 socket.on("addNewUser", users => addUser(users));
-socket.on("typingMessage", msg => document.querySelector('.typing').innerHTML = `<p>${msg}</p>`);
+socket.on("typingMessage", msg => document.querySelector('.typing').innerHTML = `<p class="italic">${msg}</p>`);
 socket.on('incomingMessage', msg => displayMessage(msg));
 socket.on('leftChat', username => updateUsers(username));
 
